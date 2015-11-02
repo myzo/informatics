@@ -1,3 +1,9 @@
+/*
+ID:
+PROG: inflate
+LANG: C++
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 

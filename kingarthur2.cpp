@@ -1,26 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N, P, A, B, answer;
+int N, P, A, B, g[2], visited[100010], answer;
 vector<int> a[100010];
-bool visited[100010];
 
-void dfs(int x) {
-	if (visited[x]) return;
-	int g[2] {0};
-	pair<int, int> c;
-	stack<pair<int, int> > s;
-	s.push(make_pair(x, 0));
-	while (s.size()) {
-		c = s.top(); s.pop();
-		if (visited[c.first]) continue;
-		visited[c.first] = true;
-		g[c.second % 2]++;
-		for (int i = 0; i < a[c.first].size(); i++) {
-			s.push(make_pair(a[c.first][i], c.second + 1));
-		}
-	}
-	answer += max(g[0], g[1]);
+void dfs(int x, bool y) {
+	if (visited[x]++) return;
+	g[y]++;
+	for (int i = 0; i < a[x].size(); i++) dfs(a[x][i], !y);
 }
 
 int main() {
@@ -32,6 +19,6 @@ int main() {
 		a[A].push_back(B);
 		a[B].push_back(A);
 	}
-	for (int i = 1; i <= N; i++) dfs(i);
+	for (int i = 1; i <= N; i++, answer += max(g[0], g[1]), g[0] = g[1] = 0) dfs(i, false);
 	printf("%d", answer);
 }
